@@ -31,14 +31,14 @@ jobs:
           curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s latest
           echo "$HOME/.golangci-lint/bin" >> $GITHUB_PATH
 
-      # 5️⃣ Lint code
+      # 5️⃣ Run linters
       - name: Lint code
-        run: make lint
+        run: golangci-lint run ./...
 
       # 6️⃣ Build Go binary
       - name: Build Go binary
-        run: make build
+        run: go build -o bot ./cmd/bot
 
       # 7️⃣ Build Docker image
       - name: Build Docker image
-        run: make docker-build
+        run: docker build -t tg-audio-bot .
