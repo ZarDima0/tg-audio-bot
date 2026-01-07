@@ -26,10 +26,10 @@ jobs:
         run: go mod download
 
       # 4️⃣ Install golangci-lint
-      - name: Install golangci-lint
-        run: |
-          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s latest
-          echo "$HOME/.golangci-lint/bin" >> $GITHUB_PATH
+      - name: Set up golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: v1.59.1   # можно последнюю стабильную версию
 
       # 5️⃣ Run linters
       - name: Lint code
