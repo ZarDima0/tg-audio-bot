@@ -1,0 +1,17 @@
+.DS_Store
+/bin/
+/build/
+/*.exe
+/*.test
+*.out
+/go.sum
+.vscode/
+.idea/
+.env
+.env.local
+.env.*.local
+/downloads/
+*.log
+docker-compose.override.yml
+*.swp
+*.tmp
