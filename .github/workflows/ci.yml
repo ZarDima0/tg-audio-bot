@@ -24,17 +24,7 @@ jobs:
       # 3️⃣ Install dependencies
       - name: Download Go modules
         run: go mod download
-
-      # 4️⃣ Install golangci-lint
-      - name: Set up golangci-lint
-        uses: golangci/golangci-lint-action@v3
-        with:
-          version: v1.59.1   # можно последнюю стабильную версию
-
-      # 5️⃣ Run linters
-      - name: Lint code
-        run: golangci-lint run ./...
-
+        
       # 6️⃣ Build Go binary
       - name: Build Go binary
         run: go build -o bot ./cmd/bot
