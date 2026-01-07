@@ -29,15 +29,16 @@ jobs:
       - name: Install golangci-lint
         run: |
           curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s latest
-          export PATH=$PATH:$$HOME/.golangci-lint/bin
-      # 6️⃣ Lint
+          echo "$HOME/.golangci-lint/bin" >> $GITHUB_PATH
+
+      # 5️⃣ Lint code
       - name: Lint code
         run: make lint
 
-      # 7️⃣ Build Go binary
+      # 6️⃣ Build Go binary
       - name: Build Go binary
         run: make build
 
-      # 8️⃣ Build Docker image
+      # 7️⃣ Build Docker image
       - name: Build Docker image
         run: make docker-build
