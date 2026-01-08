@@ -9,18 +9,18 @@ import (
 	"path/filepath"
 	"soundExtractBot/internal/utils"
 
-	"github.com/kkdai/youtube/v2"
+	yt "github.com/kkdai/youtube/v2"
 )
 
 const DownloadDir = "./downloads"
 
 type YouTubeDownloader struct {
-	client *youtube.Client
+	client *yt.Client
 }
 
 func NewYouTubeDownloader() *YouTubeDownloader {
 	return &YouTubeDownloader{
-		client: &youtube.Client{},
+		client: &yt.Client{},
 	}
 }
 
