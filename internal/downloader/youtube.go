@@ -57,7 +57,6 @@ func (d *YouTubeDownloader) DownloadAudio(
 		ext = "webm"
 	}
 
-	// создаём директорию, если её нет
 	if err := os.MkdirAll(DownloadDir, os.ModePerm); err != nil {
 		return "", "", fmt.Errorf("create download dir: %w", err)
 	}

@@ -1,6 +1,8 @@
 package utils
 
-import yt "github.com/kkdai/youtube/v2"
+import (
+	yt "github.com/kkdai/youtube/v2"
+)
 
 func GetAudioFormat(list yt.FormatList) yt.Format {
 	list.Sort()

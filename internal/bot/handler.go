@@ -9,21 +9,25 @@ import (
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
-
+const (
+	CommandStart         = "/start"
+	MessageStart         = "👋 Привет! Чтобы скачать аудио из видео на YouTube, отправь ссылку на видео."
+	MessageDownloading   = "⏳ Скачиваю аудио..."
+	MessageDownloadError = "❌ Не удалось скачать аудио. Проверьте ссылку и попробуйте снова."
+)
 func (b *Bot) handleMessage(ctx context.Context, msg *tgbotapi.Message) {
 	chatID := msg.Chat.ID
-	userID := msg.From.ID
-
-	slog.Info("Processing message",
-		"chat_id", chatID,
-		"user_id", userID,
-		"text", msg.Text,
-	)
-
-	b.sendMessage(chatID, "⏳ Скачиваю аудио...")
+	if msg.Text == CommandStart {
+		b.sendMessage(chatID, MessageStart)
+		return
+	}
+	b.sendMessage(chatID, MessageDownloading)
 	slog.Info("Starting audio download", "url", msg.Text)
-	audioPath, title, _ := b.downloader.DownloadAudio(ctx, msg.Text)
-
+	audioPath, title, err := b.downloader.DownloadAudio(ctx, msg.Text)
+	if err != nil {
+		b.sendMessage(chatID, MessageDownloadError)
+		slog.Error("Error download audio", "url", msg.Text, "chatId", chatID, "message", err)
+	}
 	audio := tgbotapi.NewAudio(chatID, tgbotapi.FilePath(audioPath))
 	audio.Title = title
 	audio.Caption = fmt.Sprintf("🎵 %s", title)
