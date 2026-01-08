@@ -27,6 +27,7 @@ jobs:
         uses: golangci/golangci-lint-action@v5
         with:
           version: v2.7.2
+          args: ""
 
       - name: Build Go binary
         run: go build -o bot ./cmd/bot
