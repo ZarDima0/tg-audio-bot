@@ -24,9 +24,7 @@ jobs:
         run: go mod download
 
       - name: Run golangci-lint
-        uses: golangci/golangci-lint-action@v3
-        with:
-          version: v2.7.2
+        uses: golangci/golangci-lint-action@v5
 
       - name: Build Go binary
         run: go build -o bot ./cmd/bot
