@@ -1,4 +1,4 @@
-name: Go CI/CD
+name: CI
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build-and-lint:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,18 +18,15 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: "1.25"
+          cache: true
 
       - name: Download Go modules
         run: go mod download
-        
+
       - name: Run golangci-lint
         uses: golangci/golangci-lint-action@v3
         with:
-          version: v1.59.1
-          args: ./...
+          version: v2.7.2
 
       - name: Build Go binary
-        run: make build
-
-      - name: Build Docker image
-        run: make docker-build
+        run: go build -o bot ./cmd/bot
