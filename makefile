@@ -6,43 +6,28 @@ CONTAINER_NAME=tg-audio-bot
 BINARY_NAME=bot
 
 # ---------------------------------------
-# Запуск бота: билд и запуск Docker
-# ---------------------------------------
-run:
-	@echo "🚀 Building Docker image and starting bot..."
-	docker build -t $(IMAGE_NAME) .
-	docker run -d \
-		--name $(CONTAINER_NAME) \
-		--env-file ./.env \
-		-v ./downloads:/app/downloads \
-		$(IMAGE_NAME)
-	@echo "📦 Bot is running! Use 'make logs' to see logs."
-
-# ---------------------------------------
-# Просмотр логов
-# ---------------------------------------
-logs:
-	docker logs -f $(CONTAINER_NAME)
-
-# ---------------------------------------
-# Линтинг Go кода (локально)
+# Lint
 # ---------------------------------------
 lint:
-	@golangci-lint run ./...
+	golangci-lint run ./...
 
 # ---------------------------------------
-# Сборка Go бинарника
+# Build
 # ---------------------------------------
 build:
 	go build -o $(BINARY_NAME) ./cmd/bot
 
 # ---------------------------------------
-# Очистка: остановка контейнера и удаление образа
+# Docker
+# ---------------------------------------
+docker-build:
+	docker build -t $(IMAGE_NAME) .
+
+# ---------------------------------------
+# Clean
 # ---------------------------------------
 clean:
-	@echo "🧹 Stopping container and removing image..."
 	docker stop $(CONTAINER_NAME) || true
 	docker rm $(CONTAINER_NAME) || true
 	docker rmi $(IMAGE_NAME) || true
 	rm -f $(BINARY_NAME)
-	@echo "✅ Cleanup complete!"
