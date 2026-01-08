@@ -23,11 +23,13 @@ jobs:
       - name: Download Go modules
         run: go mod download
 
-       # Один шаг для установки и запуска линтера
+      - name: Tidy dependencies
+        run: go mod tidy
+
       - name: Install and run golangci-lint v2.7.2
         run: |
           curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.7.2
           golangci-lint run
-          
+
       - name: Build Go binary
         run: go build -o bot ./cmd/bot
