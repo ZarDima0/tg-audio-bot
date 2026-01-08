@@ -3,31 +3,41 @@
 # ---------------------------------------
 IMAGE_NAME=tg-audio-bot
 CONTAINER_NAME=tg-audio-bot
-BINARY_NAME=bot
 
 # ---------------------------------------
-# Lint
+# Команда 1: Собрать и поднять приложение
 # ---------------------------------------
-lint:
-	golangci-lint run ./...
+up:
+	docker-compose up -d --build
 
 # ---------------------------------------
-# Build
+# Команда 2: Остановить и почистить ТОЛЬКО ПРОЕКТ
+# ---------------------------------------
+down:
+	docker-compose down --rmi all --volumes --remove-orphans
+
+# ---------------------------------------
+# Вспомогательные команды
+# ---------------------------------------
+logs:
+	docker-compose logs -f
+
+stop:
+	docker-compose stop
+
+status:
+	docker-compose ps
+
+restart: stop up
+
+# ---------------------------------------
+# Локальная разработка
 # ---------------------------------------
 build:
-	go build -o $(BINARY_NAME) ./cmd/bot
+	go build -o bot ./cmd/bot
 
-# ---------------------------------------
-# Docker
-# ---------------------------------------
-docker-build:
-	docker build -t $(IMAGE_NAME) .
+run: build
+	./bot
 
-# ---------------------------------------
-# Clean
-# ---------------------------------------
-clean:
-	docker stop $(CONTAINER_NAME) || true
-	docker rm $(CONTAINER_NAME) || true
-	docker rmi $(IMAGE_NAME) || true
-	rm -f $(BINARY_NAME)
+lint:
+	golangci-lint run ./...

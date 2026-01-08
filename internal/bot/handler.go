@@ -20,7 +20,6 @@ func (b *Bot) handleMessage(ctx context.Context, msg *tgbotapi.Message) {
 		"text", msg.Text,
 	)
 
-	slog.Info("Starting audio download", "url", msg.Text)
 	b.sendMessage(chatID, "⏳ Скачиваю аудио...")
 	slog.Info("Starting audio download", "url", msg.Text)
 	audioPath, title, _ := b.downloader.DownloadAudio(ctx, msg.Text)
